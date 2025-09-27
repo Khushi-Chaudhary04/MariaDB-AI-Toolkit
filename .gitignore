@@ -1,0 +1,25 @@
+Python Caching and Virtual Environments
+Ignore compiled Python files
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+Ignore standard Python virtual environment folders
+.venv/
+venv/
+env/
+pip-log.txt
+
+Distribution and Packaging
+dist/
+build/
+*.egg-info/
+
+IDE and Editor Files (VS Code, etc.)
+.vscode/ # VS Code settings and launch configurations
+.DS_Store # macOS system file
+
+Sensitive Data and Local Environment Files
+.env # Critical: Stores database passwords, API keys, etc.
+credentials *.sqlite
