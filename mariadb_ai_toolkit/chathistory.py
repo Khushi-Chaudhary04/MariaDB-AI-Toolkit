@@ -42,8 +42,10 @@ class ChatHistoryManager:
             print(f"MariaDB Schema Creation Error: {e}")
             raise
         finally:
-            cursor.close()
-            conn.close()
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conn' in locals() and conn:
+                conn.close()
 
     def add_message(self, session_id: str, role: str, content: str):
         """Adds a single message to a session's history, updating the JSON column."""
@@ -78,22 +80,27 @@ class ChatHistoryManager:
             print(f"MariaDB Transaction Error: {e}")
             raise
         finally:
-            cursor.close()
-            conn.close()
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conn' in locals() and conn:
+                conn.close()
 
     def get_history(self, session_id: str) -> List[Dict[str, str]]:
         """Retrieves the full chat history for a given session."""
         conn = self._connect()
         cursor = conn.cursor()
         
-        select_query = f"SELECT messages FROM `{self.table_name}` WHERE session_id = ?"
-        cursor.execute(select_query, (session_id,))
-        result = cursor.fetchone()
+        try:
+            select_query = f"SELECT messages FROM `{self.table_name}` WHERE session_id = ?"
+            cursor.execute(select_query, (session_id,))
+            result = cursor.fetchone()
         
-        cursor.close()
-        conn.close()
-
-        if result:
-            return json.loads(result[0])
-        else:
-            return []
+            if result:
+                return json.loads(result[0])
+            else:
+                return []
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conn' in locals() and conn:
+                conn.close()

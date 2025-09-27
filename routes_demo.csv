@@ -1,0 +1,10 @@
+airline_name,route_details,source_airport,stops
+United Airlines,"a quick flight to California",JFK,0
+American Airlines,"a long haul to London",SFO,1
+Delta,"a short hop to Florida",ATL,0
+United Airlines,"cross-country trip to New York",LAX,0
+British Airways,"transatlantic flight to the UK",JFK,0
+Southwest Airlines,"a budget trip to Las Vegas",MDW,0
+Lufthansa,"non-stop to Frankfurt",ORD,0
+Air Canada,"connecting flight to Vancouver",SEA,1
+United Airlines,"another flight to California",ORD,0

@@ -1,7 +1,8 @@
 import mariadb
 import pandas as pd
 import json
-from langchain_community.embeddings import HuggingFaceEmbeddings
+import numpy as np
+from langchain_huggingface import HuggingFaceEmbeddings
 from typing import Dict, List, Any, Union
 
 # --- CONFIGURATION CONSTANTS ---
@@ -49,7 +50,7 @@ def ingest_data_from_csv(
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 text_data TEXT,
                 metadata JSON,
-                embedding VECTOR({DEFAULT_EMBEDDING_DIM}),
+                embedding VECTOR({DEFAULT_EMBEDDING_DIM}) NOT NULL,
                 -- Add VECTOR INDEX for high performance search (COSINE is standard for semantic search)
                 VECTOR INDEX vec_idx (embedding) M=10 DISTANCE=COSINE
             );
@@ -78,14 +79,22 @@ def ingest_data_from_csv(
         # Prepare bulk insert data
         insert_data = []
         for i, (text, embedding) in enumerate(zip(texts, embeddings)):
-            # Create JSON metadata dictionary (must be serializable)
-            metadata_dict = {col: df.loc[i, col] for col in metadata_cols if col in df.columns}
-            
-            # The MariaDB connector handles the vector list conversion automatically
+            # Create JSON metadata dictionary, ensuring values are JSON-serializable
+            metadata_dict = {}
+            for col in metadata_cols:
+                if col in df.columns:
+                    value = df.loc[i, col]
+                    # Convert numpy types to native Python types
+                    if hasattr(value, 'item'):
+                        metadata_dict[col] = value.item()
+                    else:
+                        metadata_dict[col] = value
+            # Convert embedding to bytes for MariaDB VECTOR column
+            embedding_bytes = np.array(embedding, dtype='float32').tobytes()
             insert_data.append((
                 text,
                 json.dumps(metadata_dict),
-                embedding
+                embedding_bytes
             ))
 
         # --- 4. Bulk Insert ---
@@ -102,6 +111,6 @@ def ingest_data_from_csv(
         print(f"Ingestion Configuration Error: {e}")
         raise
     finally:
-        if conn and conn.is_connected():
+        if conn:
             cursor.close()
             conn.close()

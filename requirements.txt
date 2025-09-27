@@ -1,0 +1,5 @@
+mariadb
+pandas
+langchain-core
+langchain-huggingface
+sentence-transformers

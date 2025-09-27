@@ -1,11 +1,12 @@
 import mariadb
 import json
+import numpy as np
 from typing import Any, List, Optional, Dict, Union, Tuple
 
 from langchain_core.documents import Document
 from langchain_core.vectorstores import VectorStore
 from langchain_core.embeddings import Embeddings
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 # --- CONFIGURATION CONSTANTS ---
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -53,6 +54,13 @@ class HybridVectorStore(VectorStore):
     # core winning features (Ingestor and Hybrid Search), but would be required
     # for a fully compliant LangChain VectorStore implementation.
 
+    @classmethod
+    def from_texts(cls, texts: List[str], embedding: Embeddings, metadatas: Optional[List[dict]] = None, **kwargs: Any):
+        """
+        Required by LangChain VectorStore interface. Not used in this MariaDB toolkit implementation.
+        """
+        raise NotImplementedError("Use the Ingestor for bulk loading. HybridVectorStore is for search only.")
+
     def similarity_search(
         self, query: str, k: int = 4, filter: Optional[Dict[str, Any]] = None, **kwargs: Any
     ) -> List[Document]:
@@ -66,6 +74,8 @@ class HybridVectorStore(VectorStore):
 
         # 1. Generate the embedding for the query string
         query_embedding = self.embedding_model.embed_query(query)
+        # Convert query embedding to bytes for MariaDB VECTOR comparison
+        query_embedding_bytes = np.array(query_embedding, dtype='float32').tobytes()
 
         # 2. Build the dynamic SQL query
         sql_query_base = f"SELECT {self.text_column}, {self.metadata_column} FROM `{self.table_name}`"
@@ -89,7 +99,7 @@ class HybridVectorStore(VectorStore):
             ORDER BY VEC_DISTANCE_COSINE({self.embedding_column}, ?)
             LIMIT ?;
         """
-        params.extend([query_embedding, k])
+        params.extend([query_embedding_bytes, k])
 
         try:
             cursor.execute(sql_query, tuple(params))
@@ -112,8 +122,10 @@ class HybridVectorStore(VectorStore):
             print(f"MariaDB Search Error: {e}")
             raise
         finally:
-            cursor.close()
-            conn.close()
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conn' in locals() and conn:
+                conn.close()
     
     # Required method stub
     def add_texts(self, texts: List[str], metadatas: Optional[List[dict]] = None, **kwargs: Any) -> List[str]:
