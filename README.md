@@ -55,6 +55,10 @@ mariadb-ai-toolkit/
 │   ├── vectorstore.py
 │   ├── chathistory.py
 │   └── __init__.py
+├── docs/
+│   ├── ingestor.md
+│   ├── vectorstore.md
+│   └── chathistory.md
 ├── run_and_demo.py
 ├── requirements.txt
 ├── README.md
@@ -66,5 +70,4 @@ mariadb-ai-toolkit/
 - MariaDB server (with VECTOR and JSON support)
 - See `requirements.txt` for Python dependencies
 
-## License
-MIT
+
