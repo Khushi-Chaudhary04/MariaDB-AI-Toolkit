@@ -1,53 +1,57 @@
-# MariaDB AI Toolkit
+# 🏆 MariaDB AI Toolkit: The Unified Python Bridge for AI/RAG
 
-A production-ready Python package featuring three deeply integrated modules that automate the entire AI-data workflow for Retrieval-Augmented Generation (RAG) and hybrid search applications using MariaDB.
+[![MariaDB Python Hackathon Submission](https://img.shields.io/badge/MariaDB%20Hackathon-Integration%20Track-blueviolet)](https://mariadb-python.hackerearth.com/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![LangChain Compatible](https://img.shields.io/badge/LangChain-Compatible-00a896)](https://www.langchain.com/)
 
-## Features
+The **MariaDB AI Toolkit** is a **production-ready Python package** that creates a **seamless developer experience** for building modern, context-aware AI applications. Submitted in the **Integration Track**, this toolkit directly exposes MariaDB's native capabilities (`VECTOR`, `JSON`) to the Python AI ecosystem, establishing MariaDB as a **unified data platform** for RAG.
+
+---
+
+## ✨ Features: Deeply Integrated RAG Components
+
+This toolkit provides three core modules that automate the entire AI-data workflow:
 
 ### 1. Schema-Aware Ingestor
-- **Automates ingestion** of structured data (CSV, database tables) into MariaDB for vector search.
-- **Column mapping:** Specify which columns are used for embeddings and which are stored as JSON metadata.
-- **Embeddings:** Uses HuggingFace models for semantic vector generation.
-- **MariaDB Table Creation:** Automatically creates tables with VECTOR and JSON columns, and a VECTOR INDEX for fast search.
+* **Automates Ingestion:** Handles structured data (CSV, DB tables) into MariaDB for vector search.
+* **MariaDB Table Creation:** Automatically creates tables with **VECTOR** and **JSON** columns, and sets up a high-performance **VECTOR INDEX** (`M=10 DISTANCE=COSINE`).
+* **Column Mapping:** Specify which columns are used for HuggingFace embeddings and which are stored as `JSON` metadata.
 
-### 2. HybridVectorStore
-- **LangChain-compatible** vector store for MariaDB.
-- **Hybrid search:** Combines semantic similarity (VEC_DISTANCE_COSINE) with structured JSON filtering in a single query.
-- **Efficient retrieval:** Leverages MariaDB's unified data platform for scalable, precise search.
+### 2. HybridVectorStore (LangChain Integration)
+* **LangChain-Compatible:** A custom vector store built for the LangChain framework.
+* **True Hybrid Search:** Combines semantic similarity (`VEC_DISTANCE_COSINE`) with structured JSON filtering (`JSON_VALUE`) in a **single, efficient query**.
+* **Efficient Retrieval:** Leverages MariaDB's unified data platform for scalable, precise search.
 
 ### 3. ChatHistoryManager
-- **Persistent chat memory** for AI applications using MariaDB's JSON type.
-- **Simple API:** Add and retrieve chat messages for any session.
-- **Fast and flexible:** Ideal for conversational AI and state management.
+* **Persistent Chat Memory:** Manages conversational state for AI applications using MariaDB's flexible **JSON** type.
+* **Simple API:** Provides easy `add_message` and `get_history` functions for any session ID.
+* **Fast and Flexible:** Ideal for scalable conversational AI and state management.
 
-## Quickstart
+---
 
-1. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. **Configure your MariaDB connection** in `run_and_demo.py`:
-   ```python
-   DB_CONNECTION_DETAILS = {
-       "host": "127.0.0.1",
-       "port": 3306,
-       "user": "root",
-       "password": "your_password",
-       "database": "mydb"
-   }
-   ```
-3. **Run the demonstration:**
-   ```bash
-   python run_and_demo.py
-   ```
+## 🛠️ Quickstart: Zero-Friction Setup
 
-## Demonstration
+The included demonstration uses the **Open Flights Dataset** (or a derivative) to ensure the code's focus is on the features, not complex data setup.
 
-- **Ingestor Demo:** Loads a sample OpenFlights CSV, mapping columns for embeddings and metadata.
-- **Hybrid Search Demo:** Finds routes similar to a query, filtered by airline and stops.
-- **Chat Manager Demo:** Simulates a chat session and retrieves the history.
+1.  **Requirements:** Python 3.8+ and MariaDB Server (11.8+) with `VECTOR` and `JSON` support.
+2.  **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Configure:** Update the `DB_CONNECTION_DETAILS` in `run_and_demo.py` with your credentials.
+4.  **Run the Complete Demo:**
+    ```bash
+    python run_and_demo.py
+    ```
 
-## Project Structure
+### Demonstration Flow
+* **Ingestor Demo:** Loads sample OpenFlights data, automatically creating the vector index.
+* **Hybrid Search Demo:** Performs a query ranked by similarity *and* filtered by structured metadata.
+* **Chat Manager Demo:** Simulates a chat session, persisting history to MariaDB.
+
+---
+
+## 📚 Project Structure & Documentation
 ```
 mariadb-ai-toolkit/
 ├── mariadb_ai_toolkit/
@@ -64,10 +68,5 @@ mariadb-ai-toolkit/
 ├── README.md
 └── routes_demo.csv
 ```
-
-## Requirements
-- Python 3.8+
-- MariaDB server (with VECTOR and JSON support)
-- See `requirements.txt` for Python dependencies
 
 
