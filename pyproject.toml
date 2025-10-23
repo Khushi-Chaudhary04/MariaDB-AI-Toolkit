@@ -12,7 +12,6 @@ description = "An elegant toolkit for MariaDB/AI integration, featuring schema-a
 readme = "README.md"
 requires-python = ">=3.9"
 
-Classifiers help users find your package on PyPI
 classifiers = [
 "Programming Language :: Python :: 3",
 "License :: OSI Approved :: MIT License",
