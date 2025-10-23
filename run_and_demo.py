@@ -5,7 +5,6 @@ from mariadb_ai_toolkit.vectorstore import HybridVectorStore
 from mariadb_ai_toolkit.chathistory import ChatHistoryManager
 
 # --- 1. DATABASE CONNECTION DETAILS ---
-# IMPORTANT: Replace with your actual MariaDB connection details.
 # This example assumes a local MariaDB instance with a database named 'mydb'.
 DB_CONNECTION_DETAILS = {
     "host": "127.0.0.1",
