@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "mariadb-ai-toolkit"
 version = "0.1.0"
 authors = [
-{ name = "MariaDB Hackathon Team", email = "hackathon.team@example.com" },
+{ name = "Team Jedi Knights", email = "khushigchaudhary@gmail.com" },
 ]
 description = "An elegant toolkit for MariaDB/AI integration, featuring schema-aware data ingestion, high-performance hybrid vector search, and persistent chat history management."
 readme = "README.md"
