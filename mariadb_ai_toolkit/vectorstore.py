@@ -51,7 +51,7 @@ class HybridVectorStore(VectorStore):
         return self.embedding_model
 
     # NOTE: add_documents and _delete methods are omitted here to focus on the
-    # core winning features (Ingestor and Hybrid Search), but would be required
+    # core features (Ingestor and Hybrid Search), but would be required
     # for a fully compliant LangChain VectorStore implementation.
 
     @classmethod
