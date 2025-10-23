@@ -6,34 +6,35 @@ build-backend = "hatchling.build"
 name = "mariadb-ai-toolkit"
 version = "0.1.0"
 authors = [
-{ name = "Team Jedi Knights", email = "khushigchaudhary@gmail.com" },
+    { name = "Jedi Knights", email = "khushigchaudhary@gmail.com" },
 ]
 description = "An elegant toolkit for MariaDB/AI integration, featuring schema-aware data ingestion, high-performance hybrid vector search, and persistent chat history management."
 readme = "README.md"
 requires-python = ">=3.9"
 
+# Classifiers help users find your package on PyPI
 classifiers = [
-"Programming Language :: Python :: 3",
-"License :: OSI Approved :: MIT License",
-"Operating System :: OS Independent",
-"Topic :: Scientific/Engineering :: Artificial Intelligence",
-"Topic :: Database :: Database Engines/Servers"
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Database :: Database Engines/Servers"
 ]
 
-Define all external packages your toolkit needs
+# Define all external packages your toolkit needs
 dependencies = [
-# Core MariaDB connectivity
-"mariadb",
-# LangChain components for vector store interface and embeddings
-"langchain-community",
-"langchain-core",
-# Data handling (CSV loading, DataFrame manipulation)
-"pandas",
-# The lightweight model we use for local vector generation
-"sentence-transformers",
+    # Core MariaDB connectivity
+    "mariadb",
+    # LangChain components for vector store interface and embeddings
+    "langchain-community",
+    "langchain-core",
+    # Data handling (CSV loading, DataFrame manipulation)
+    "pandas",
+    # The lightweight model we use for local vector generation
+    "sentence-transformers",
 ]
 
-Define the internal package to be included in the distribution
-packages = [
-{ include = "mariadb_ai_toolkit" },
-]
+# --- HATCH/BUILD CONFIGURATION ---
+
+[tool.hatch.build.targets.sdist]
+packages = ["mariadb_ai_toolkit"]
